@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+
 import androidx.core.content.ContextCompat;
+
 import android.telephony.CellInfo;
 import android.telephony.CellInfoCdma;
 import android.telephony.CellInfoGsm;
@@ -28,6 +30,9 @@ public class imformacionDispositivos {
 
     private TelephonyManager tm;
     private Context ctx;
+    private PruebasLog pruebasLog;
+    private AdminSql adminSql;
+    private String TAG_IMFORMACION_DISPOSITIVOS = "FRAGMENT IMFORMACION DISPOSITIVOS";
 
 
     public imformacionDispositivos(Context ctx) {
@@ -104,6 +109,9 @@ public class imformacionDispositivos {
             datosRM.add(getMacAddress());
         } catch (Exception e) {
             Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+            adminSql = new AdminSql(ctx, "mydb", null, 1);
+            pruebasLog = new PruebasLog(adminSql.obtenerFecha(), TAG_IMFORMACION_DISPOSITIVOS, e.getMessage());
+            adminSql.insertarLog(pruebasLog);
         }
     }
 
@@ -312,7 +320,9 @@ public class imformacionDispositivos {
         throw new RuntimeException("New type of network");
     }
 
-    /**en android 8.1 es necesario tener encendidad la localizacion para acceder a estos metodos
+    /**
+     * en android 8.1 es necesario tener encendidad la localizacion para acceder a estos metodos
+     *
      * @return String
      * @throws SecurityException Este metodo regresa un string con el actual dbm que se esta recibiendo en el dispositivo
      */

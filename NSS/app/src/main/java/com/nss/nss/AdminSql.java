@@ -3,9 +3,12 @@ package com.nss.nss;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,6 +23,8 @@ import java.util.Date;
 public class AdminSql extends SQLiteOpenHelper {
 
     private final String TABLE_NAME = "historicosRedesMoviles";
+    private final String TABLE_NAME_LOG = "Log";
+
     private String crearTabla = "CREATE TABLE " + TABLE_NAME + "(" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "fecha TEXT," +
@@ -29,14 +34,37 @@ public class AdminSql extends SQLiteOpenHelper {
             "tipo_de_red TEXT," +
             "tipo_de_red_telefonica TEXT" +
             ")";
+
+    private String crearTableLog = "CREATE TABLE " + TABLE_NAME_LOG + "(" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "fecha TEXT," +
+            "tag TEXT," +
+            "valor TEXT)";
+
     private SQLiteDatabase db;
     private int totalRegistros;
     private Context ctx;
+    private String TAG_HISTORICOS_PRUEBAS = "FRAGMENT HISTORICOS PRUEBAS";
 
     public AdminSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         db = this.getWritableDatabase();
         ctx = context;
+    }
+
+    public void insertarLog(PruebasLog log) {
+        try {
+            db = AdminSql.this.getWritableDatabase();
+            ContentValues registros = new ContentValues();
+            registros.put("fecha", log.getFecha());
+            registros.put("tag", log.getTag());
+            registros.put("valor", log.getValor());
+            db.insert(TABLE_NAME_LOG, null, registros);
+            db.close();
+        } catch (SQLException e) {
+            Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.w(TAG_HISTORICOS_PRUEBAS, e.getMessage());
+        }
     }
 
     public void exportarBase() {
@@ -46,6 +74,7 @@ public class AdminSql extends SQLiteOpenHelper {
             public void onStart() {
                 Toast.makeText(ctx, "Exportando base de datos", Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onCompleted(String filePath) {
                 Toast.makeText(ctx, filePath, Toast.LENGTH_SHORT).show();
@@ -72,7 +101,7 @@ public class AdminSql extends SQLiteOpenHelper {
             db.insert(TABLE_NAME, null, registro);
             db.close();
         } catch (Exception e) {
-            Log.w("Error", e.getMessage());
+            Log.w(TAG_HISTORICOS_PRUEBAS, e.getMessage());
         }
     }
 
@@ -106,12 +135,12 @@ public class AdminSql extends SQLiteOpenHelper {
                     registros.add(fila.getString(5));
                     registros.add(fila.getString(6));
                 } while (fila.moveToNext());
-                Log.w("MENSAJE", registros.toString());
+                Log.w(TAG_HISTORICOS_PRUEBAS, registros.toString());
                 fila.close();
                 db.close();
             }
         } catch (Exception e) {
-            Log.w("ERROR", e.getMessage());
+            Log.w(TAG_HISTORICOS_PRUEBAS, e.getMessage());
         }
         return registros;
     }
@@ -138,12 +167,12 @@ public class AdminSql extends SQLiteOpenHelper {
                     registros.add(fila.getString(5));
                     registros.add(fila.getString(6));
                 } while (fila.moveToNext());
-                Log.w("MENSAJE", registros.toString());
+                Log.w(TAG_HISTORICOS_PRUEBAS, registros.toString());
                 fila.close();
                 db.close();
             }
         } catch (Exception e) {
-            Log.w("ERROR", e.getMessage());
+            Log.w(TAG_HISTORICOS_PRUEBAS, e.getMessage());
         }
         return registros;
     }
@@ -153,7 +182,7 @@ public class AdminSql extends SQLiteOpenHelper {
      * regresa la fecha actual en formato dd/mm/yy
      */
 
-    private String obtenerFecha() {
+    public String obtenerFecha() {
         long ahora = System.currentTimeMillis();
         Date fecha = new Date(ahora);
         DateFormat df = new SimpleDateFormat("dd/MM/yy");
@@ -174,13 +203,15 @@ public class AdminSql extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(crearTabla);
+        db.execSQL(crearTableLog);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL(crearTabla);
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_LOG);
+        db.execSQL(crearTableLog);
     }
 
 

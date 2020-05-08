@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -46,6 +47,9 @@ public class historicos_pruebas extends Fragment {
     private String CBuscada = "fecha";
     private OnFragmentInteractionListener mListener;
     private Unbinder unbinder;
+    private String TAG_HISTORICOS_PRUEBAS = "FRAGMENT HISTORICOS PRUEBAS ";
+    private String mensajeTag;
+    private PruebasLog pruebasLog;
 
     public historicos_pruebas() {
         // Required empty public constructor
@@ -68,6 +72,7 @@ public class historicos_pruebas extends Fragment {
     @BindView(R.id.tablelayout)
     TableLayout table;
 
+
     @OnClick(R.id.btnExportar)
     void clickBtnExportar() {
         adminSql.exportarBase();
@@ -82,12 +87,19 @@ public class historicos_pruebas extends Fragment {
         buscando = true;
         agregarRegistrosAtabla();
     }
-    
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        Log.w(TAG_HISTORICOS_PRUEBAS, "UNBINDER");
+        super.onDestroyView();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
-        ButterKnife.bind(this, vista);
+        unbinder = ButterKnife.bind(this, vista);
         spinerFiltrar = vista.findViewById(R.id.spinner);
         txtBuscar = vista.findViewById(R.id.txtBuscar);
         spinerFiltrar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -142,10 +154,17 @@ public class historicos_pruebas extends Fragment {
             buscando = false;
         } else
             registros = adminSql.regresarRegistros(registros);
-        Log.w("Registros", adminSql.getTotalRegistros() + " " + registros.size());
+        mensajeTag = adminSql.getTotalRegistros() + " " + registros.size();
+        Log.w(TAG_HISTORICOS_PRUEBAS, mensajeTag);
+        enviarLog();
         tablaDinamica = new TableLayoutDinamico(table, getContext());
         tablaDinamica.agregarCabezeras(cabezera);
         tablaDinamica.agregarRegistrosTable(adminSql.getTotalRegistros(), registros);
+    }
+
+    private void enviarLog() {
+        pruebasLog = new PruebasLog(adminSql.obtenerFecha(), TAG_HISTORICOS_PRUEBAS, mensajeTag);
+        adminSql.insertarLog(pruebasLog);
     }
 
     @Override

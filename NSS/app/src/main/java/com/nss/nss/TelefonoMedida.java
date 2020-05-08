@@ -30,6 +30,9 @@ public class TelefonoMedida extends PhoneStateListener {
     private String tituloMensajeNotificacion = "La red cambio";
     private String nombreDeFragment;
     private int lastXpoint = 1;
+    private String TAG_IMFORMACION_REDES_MOVILES = "FRAGMENT REDES MOVILES";
+    private String TAG_GRAFICA_MEDIDAS = "FRAGMENT GRAFICA MEDIDAS";
+    private PruebasLog pruebasLog;
 
 
     /*variables usadas con instanciaos desde el fragmente de pruebas*/
@@ -61,13 +64,14 @@ public class TelefonoMedida extends PhoneStateListener {
         adaptadorDatosRedes = datosRedes;
         listDatosRm = datosRM;
         info = new imformacionDispositivos(context);
-
+        adminSql = new AdminSql(context, "mydb", null, 1);
     }
 
     public TelefonoMedida(LineGraphSeries<DataPoint> series, Context context) {
         this.series = series;
         nombreDeFragment = "grafica";
         info = new imformacionDispositivos(context);
+        adminSql = new AdminSql(context, "mydb", null, 1);
     }
 
 
@@ -81,7 +85,7 @@ public class TelefonoMedida extends PhoneStateListener {
                 case "2G":
                     asu = signalStrength.getGsmSignalStrength();
                     dbm = esAsu(asu);
-                    Log.w("MM", "2G");
+                    Log.w(TAG_IMFORMACION_REDES_MOVILES, "2G");
                     break;
                 case "3G":
                     if (Build.VERSION.RELEASE.equals("7.0")) {
@@ -92,27 +96,32 @@ public class TelefonoMedida extends PhoneStateListener {
                         dbm = Integer.parseInt(partInfo[14]);//14
                         asu = esDbm(Integer.parseInt(partInfo[14]));//14
                     }
-                    Log.w("MM", "3G");
+                    Log.w(TAG_IMFORMACION_REDES_MOVILES, "3G");
                     break;
                 case "4G":
                     dbm = Integer.parseInt(partInfo[9]);
                     asu = (Integer.parseInt(partInfo[2]));//140
-                    Log.w("MM", "4G");
+                    Log.w(TAG_IMFORMACION_REDES_MOVILES, "4G");
                     break;
             }
             if (nombreDeFragment.equals("grafica")) {
                 lastXpoint++;
                 series.appendData(new DataPoint(lastXpoint, dbm), true, 100);
-                Log.w("ACC", "Actualizando grafica" + dbm + asu);
+                pruebasLog = new PruebasLog(adminSql.obtenerFecha(), TAG_GRAFICA_MEDIDAS, "Actualizando grafica");
+                adminSql.insertarLog(pruebasLog);
+                Log.w(TAG_GRAFICA_MEDIDAS, "Actualizando grafica" + dbm + asu);
             }
-
-            Log.w("MM", "dbm " + dbm + " asu " + asu);
+            pruebasLog = new PruebasLog(adminSql.obtenerFecha(), TAG_IMFORMACION_REDES_MOVILES, "dbm " + dbm + " asu " + asu);
+            adminSql.insertarLog(pruebasLog);
+            Log.w(TAG_IMFORMACION_REDES_MOVILES, "dbm " + dbm + " asu " + asu);
             ponerMedidaSpeed(dbm, asu);
             if (pruebas.btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")) {
                 adminSql.insertar(dbm, asu, info);
             }
         } catch (Exception e) {
-            Log.w("MENSAJE", e.getMessage());
+            Log.w(TAG_IMFORMACION_REDES_MOVILES, e.getMessage());
+            pruebasLog = new PruebasLog(adminSql.obtenerFecha(), TAG_IMFORMACION_REDES_MOVILES, e.getMessage());
+            adminSql.insertarLog(pruebasLog);
         }
     }
 
@@ -154,7 +163,8 @@ public class TelefonoMedida extends PhoneStateListener {
     private void actualizarGriedView() {
         adaptadorDatosRedes.clear();
         info.getImformationRedesMoviles(listDatosRm);
-        Log.w("RRD", "Actualizando");
+        Log.w(TAG_IMFORMACION_REDES_MOVILES, "Actualizando GridView");
+        pruebasLog = new PruebasLog(adminSql.obtenerFecha(), TAG_IMFORMACION_REDES_MOVILES, "Actualizando GriedView");
     }
 
     /**
