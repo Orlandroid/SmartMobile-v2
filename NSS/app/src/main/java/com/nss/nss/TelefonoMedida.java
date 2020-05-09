@@ -49,6 +49,7 @@ public class TelefonoMedida extends PhoneStateListener {
 
 
     /*fragment de pruebas*/
+    /* LISTEN_SIGNAL_STRENGTHS | LISTEN_DATA_CONNECTION_STATE */
     public TelefonoMedida(Context context, SpeedView sp, DeluxeSpeedView dx) {
         nombreDeFragment = "pruebas";
         speedDeluxe = dx;
@@ -59,6 +60,7 @@ public class TelefonoMedida extends PhoneStateListener {
     }
 
     /* fragment de imformacion*/
+    /* LISTEN_DATA_ACTIVITY | LISTEN_DATA_CONNECTION_STATE */
     public TelefonoMedida(ArrayAdapter datosRedes, Context context, List<String> datosRM) {
         nombreDeFragment = "imformacion";
         adaptadorDatosRedes = datosRedes;
@@ -67,6 +69,8 @@ public class TelefonoMedida extends PhoneStateListener {
         adminSql = new AdminSql(context, "mydb", null, 1);
     }
 
+    /* fragment de grafica medidas*/
+    /* LISTEN_SIGNAL_STRENGTHS */
     public TelefonoMedida(LineGraphSeries<DataPoint> series, Context context) {
         this.series = series;
         nombreDeFragment = "grafica";
@@ -115,9 +119,10 @@ public class TelefonoMedida extends PhoneStateListener {
             adminSql.insertarLog(pruebasLog);
             Log.w(TAG_IMFORMACION_REDES_MOVILES, "dbm " + dbm + " asu " + asu);
             ponerMedidaSpeed(dbm, asu);
-            if (pruebas.btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")) {
-                adminSql.insertar(dbm, asu, info);
-            }
+            if (nombreDeFragment.equals("pruebas"))
+                if (pruebas.btnIniciarPrueba.getText().toString().equalsIgnoreCase("DETENER")) {
+                    adminSql.insertar(dbm, asu, info);
+                }
         } catch (Exception e) {
             Log.w(TAG_IMFORMACION_REDES_MOVILES, e.getMessage());
             pruebasLog = new PruebasLog(adminSql.obtenerFecha(), TAG_IMFORMACION_REDES_MOVILES, e.getMessage());
@@ -163,8 +168,8 @@ public class TelefonoMedida extends PhoneStateListener {
     private void actualizarGriedView() {
         adaptadorDatosRedes.clear();
         info.getImformationRedesMoviles(listDatosRm);
-        Log.w(TAG_IMFORMACION_REDES_MOVILES, "Actualizando GridView");
-        pruebasLog = new PruebasLog(adminSql.obtenerFecha(), TAG_IMFORMACION_REDES_MOVILES, "Actualizando GriedView");
+        Log.w(TAG_IMFORMACION_REDES_MOVILES, "Actualizando GridView ");
+        pruebasLog = new PruebasLog(adminSql.obtenerFecha(), TAG_IMFORMACION_REDES_MOVILES, "Actualizando GriedView ");
     }
 
     /**

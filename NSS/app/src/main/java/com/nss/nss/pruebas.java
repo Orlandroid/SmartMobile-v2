@@ -25,7 +25,7 @@ public class pruebas extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+
     private String mParam1;
     private String mParam2;
 
@@ -41,15 +41,6 @@ public class pruebas extends Fragment {
 
     public pruebas() {
         // Required empty public constructor
-    }
-
-    public static pruebas newInstance(String param1, String param2) {
-        pruebas fragment = new pruebas();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -148,7 +139,6 @@ public class pruebas extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

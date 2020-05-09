@@ -24,10 +24,6 @@ public class imformacion_redes_moviles extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    /**
-     * var to store content of the data
-     */
-
 
     private List<String> ListaDatosRM = new ArrayList<>();
     private ArrayAdapter AdapterDatosRedes;
@@ -47,16 +43,6 @@ public class imformacion_redes_moviles extends Fragment {
     public imformacion_redes_moviles() {
         // Required empty public constructor
 
-    }
-
-    // TODO: Rename and change types and number of parameters
-    public static imformacion_redes_moviles newInstance(String param1, String param2) {
-        imformacion_redes_moviles fragment = new imformacion_redes_moviles();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -112,7 +98,7 @@ public class imformacion_redes_moviles extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         void onFragmentInteraction(Uri uri);
     }
 }

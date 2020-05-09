@@ -56,7 +56,6 @@ public class imformacionDispositivos {
 
     /**
      * regresa un string con el codigo de pais
-     *
      * @return String
      */
     public String getCodigoPais() {
@@ -181,8 +180,7 @@ public class imformacionDispositivos {
     }
 
     /**
-     * @param
-     * @return String
+     *  @return String
      * metodo el cual obtiene el imei del dispositivo  y nos regresa un string con el imei
      * es es nesesario tener el permiso de
      * READ_PHONE_STATE  en el archivo Manisfest y en versiones superios o igual a la api 26 es necesario
@@ -239,7 +237,6 @@ public class imformacionDispositivos {
                 break;
             case TelephonyManager.DATA_CONNECTING:
                 dataConected = "Conectando";
-
         }
         return dataConected;
     }
@@ -291,7 +288,7 @@ public class imformacionDispositivos {
     /**
      * @return String
      * Nos regresa un String con el tipo de conexion al cual estamos
-     * conectados (2G,3G,4G)
+     * conectados (2G,3G,4G o unk en caso de que no tengas conexion de red)
      */
     public String getTypeOfNetwork234() {
         int networkType = tm.getNetworkType();
@@ -322,7 +319,6 @@ public class imformacionDispositivos {
 
     /**
      * en android 8.1 es necesario tener encendidad la localizacion para acceder a estos metodos
-     *
      * @return String
      * @throws SecurityException Este metodo regresa un string con el actual dbm que se esta recibiendo en el dispositivo
      */

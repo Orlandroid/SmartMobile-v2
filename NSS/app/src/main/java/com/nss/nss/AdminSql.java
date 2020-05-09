@@ -32,8 +32,7 @@ public class AdminSql extends SQLiteOpenHelper {
             "asu INTEGER," +
             "pais TEXT," +
             "tipo_de_red TEXT," +
-            "tipo_de_red_telefonica TEXT" +
-            ")";
+            "tipo_de_red_telefonica TEXT )";
 
     private String crearTableLog = "CREATE TABLE " + TABLE_NAME_LOG + "(" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -45,6 +44,7 @@ public class AdminSql extends SQLiteOpenHelper {
     private int totalRegistros;
     private Context ctx;
     private String TAG_HISTORICOS_PRUEBAS = "FRAGMENT HISTORICOS PRUEBAS";
+    private String TAG_ERROR = "ERROR";
 
     public AdminSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -63,7 +63,7 @@ public class AdminSql extends SQLiteOpenHelper {
             db.close();
         } catch (SQLException e) {
             Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.w(TAG_HISTORICOS_PRUEBAS, e.getMessage());
+            Log.w(TAG_ERROR, e.getMessage());
         }
     }
 
@@ -101,7 +101,7 @@ public class AdminSql extends SQLiteOpenHelper {
             db.insert(TABLE_NAME, null, registro);
             db.close();
         } catch (Exception e) {
-            Log.w(TAG_HISTORICOS_PRUEBAS, e.getMessage());
+            Log.w(TAG_ERROR, e.getMessage());
         }
     }
 
@@ -116,7 +116,7 @@ public class AdminSql extends SQLiteOpenHelper {
 
 
     /*** metodo el cual regresa un arrayLIst con todos los elementos de la base de datos
-     * @param registros del tipo ArrayList<String>
+     * @param registros  ArrayList<String>
      * @return ArrayList<String> con los registros
      */
     public ArrayList<String> regresarRegistros(ArrayList<String> registros) {
@@ -140,7 +140,7 @@ public class AdminSql extends SQLiteOpenHelper {
                 db.close();
             }
         } catch (Exception e) {
-            Log.w(TAG_HISTORICOS_PRUEBAS, e.getMessage());
+            Log.w(TAG_ERROR, e.getMessage());
         }
         return registros;
     }
@@ -172,7 +172,7 @@ public class AdminSql extends SQLiteOpenHelper {
                 db.close();
             }
         } catch (Exception e) {
-            Log.w(TAG_HISTORICOS_PRUEBAS, e.getMessage());
+            Log.w(TAG_ERROR, e.getMessage());
         }
         return registros;
     }
