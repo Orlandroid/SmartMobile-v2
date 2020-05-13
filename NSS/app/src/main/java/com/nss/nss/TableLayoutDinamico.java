@@ -5,8 +5,12 @@ import android.graphics.Typeface;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import butterknife.BindColor;
+import butterknife.ButterKnife;
 
 public class TableLayoutDinamico {
 
@@ -16,7 +20,6 @@ public class TableLayoutDinamico {
     private TextView textView;
     private TableRow renglon;
     private Typeface letra;
-
 
     public TableLayoutDinamico(TableLayout tabla, Context ctx) {
         myTabla = tabla;

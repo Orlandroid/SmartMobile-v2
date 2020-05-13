@@ -39,6 +39,7 @@ public class AdminSql extends SQLiteOpenHelper {
             "fecha TEXT," +
             "tag TEXT," +
             "valor TEXT)";
+    private String Columnas = "fecha,dbm,asu,pais,tipo_de_red,tipo_de_red_telefonica";
 
     private SQLiteDatabase db;
     private int totalRegistros;
@@ -48,7 +49,6 @@ public class AdminSql extends SQLiteOpenHelper {
 
     public AdminSql(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        db = this.getWritableDatabase();
         ctx = context;
     }
 
@@ -152,7 +152,7 @@ public class AdminSql extends SQLiteOpenHelper {
             if (pbuscador.equals("")) {
                 consulta = "select * from " + TABLE_NAME + " limit 100";
             } else
-                consulta = "select * from historicosRedesMoviles where " + cBuscado + "='" + pbuscador + "'";
+                consulta = "select * from " + TABLE_NAME + " where " + cBuscado + "='" + pbuscador + "'";
             registros = new ArrayList<>();
             db = this.getWritableDatabase();
             Cursor fila = db.rawQuery(consulta, null);
@@ -181,7 +181,6 @@ public class AdminSql extends SQLiteOpenHelper {
      * @return String
      * regresa la fecha actual en formato dd/mm/yy
      */
-
     public String obtenerFecha() {
         long ahora = System.currentTimeMillis();
         Date fecha = new Date(ahora);
@@ -197,7 +196,6 @@ public class AdminSql extends SQLiteOpenHelper {
         db.close();
         mensaje = "Se ha ejecutado correctamente la consulta";
         Toast.makeText(ctx, mensaje, Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
