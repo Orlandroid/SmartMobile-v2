@@ -20,6 +20,8 @@ import com.github.anastr.speedviewlib.SpeedView;
 
 import java.util.Objects;
 
+import butterknife.BindFont;
+
 public class pruebas extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -107,7 +109,6 @@ public class pruebas extends Fragment {
         speedometer.setTickNumber(4);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
