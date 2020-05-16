@@ -21,19 +21,20 @@ public class Grafica {
     private Context context;
     private TelephonyManager tm;
     private TelefonoMedida telefonoMedida;
+    private String WINE = "WINE";
 
 
     public Grafica(GraphView grafica, Context context) {
         graphView = grafica;
         viewport = graphView.getViewport();
         gridLabelRenderer = graphView.getGridLabelRenderer();
-        this.context=context;
+        this.context = context;
     }
 
 
-    private void escuchar(){
-        tm=(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-        telefonoMedida=new TelefonoMedida(series,context);
+    private void escuchar() {
+        tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        telefonoMedida = new TelefonoMedida(series, context);
         tm.listen(telefonoMedida, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
     }
 
