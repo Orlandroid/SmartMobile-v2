@@ -2,7 +2,9 @@ package com.nss.nss;
 
 import android.content.Intent;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
 public class Splash extends AppCompatActivity {
@@ -18,7 +20,7 @@ public class Splash extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(Splash.this, RedesMovilesActivity.class);
+                Intent i = new Intent(Splash.this, Inicio.class);
                 startActivity(i);
                 finish();
             }

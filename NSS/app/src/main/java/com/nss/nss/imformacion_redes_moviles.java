@@ -19,6 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class imformacion_redes_moviles extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -27,14 +31,12 @@ public class imformacion_redes_moviles extends Fragment {
 
     private List<String> ListaDatosRM = new ArrayList<>();
     private ArrayAdapter AdapterDatosRedes;
-    private GridView GridListaDatos;
     private imformacionDispositivos info;
     private TelephonyManager tm;
     private TelefonoMedida telefonoMedida;
     private int escucharTelefono = PhoneStateListener.LISTEN_DATA_ACTIVITY | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
+    private Unbinder unbinder;
 
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -60,14 +62,16 @@ public class imformacion_redes_moviles extends Fragment {
         tm.listen(telefonoMedida, escucharTelefono);
     }
 
+    @BindView(R.id.FIRM_gridViewDatos)
+    GridView gridListaDatos;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View vista = inflater.inflate(R.layout.fragment_imformacion_redes_moviles, container, false);
-
-        GridListaDatos = vista.findViewById(R.id.FIRM_gridViewDatos);
-        GridListaDatos.setAdapter(AdapterDatosRedes);
+        unbinder = ButterKnife.bind(this, vista);
+        gridListaDatos.setAdapter(AdapterDatosRedes);
 
         return vista;
     }
@@ -90,6 +94,12 @@ public class imformacion_redes_moviles extends Fragment {
 
     }
 
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
+    }
 
     @Override
     public void onDetach() {

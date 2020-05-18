@@ -18,9 +18,9 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,9 +41,7 @@ public class historicos_pruebas extends Fragment {
     private AdminSql adminSql;
     private CalendarioDialog calendarioFecha;
     private TableLayoutDinamico tablaDinamica;
-    private String[] cabezera = {"Id", "Fecha", "Dbm", "Asu", "Codigo", "Red", "Tipo red"};
     private Typeface letra;
-    private Spinner spinerFiltrar;
     private String CBuscada = "fecha";
     private OnFragmentInteractionListener mListener;
     private Unbinder unbinder;
@@ -68,6 +66,9 @@ public class historicos_pruebas extends Fragment {
         calendarioFecha = new CalendarioDialog(getContext());
 
     }
+
+    @BindArray(R.array.elementosSpinner)
+    String[] cabezera;
 
     @BindView(R.id.tablelayout)
     TableLayout table;
@@ -95,12 +96,14 @@ public class historicos_pruebas extends Fragment {
         super.onDestroyView();
     }
 
+    @BindView(R.id.spinner)
+    Spinner spinerFiltrar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_historicos_pruebas, container, false);
         unbinder = ButterKnife.bind(this, vista);
-        spinerFiltrar = vista.findViewById(R.id.spinner);
         txtBuscar = vista.findViewById(R.id.txtBuscar);
         spinerFiltrar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -141,7 +144,6 @@ public class historicos_pruebas extends Fragment {
         return vista;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -185,7 +187,6 @@ public class historicos_pruebas extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
