@@ -23,18 +23,12 @@ public class grafica_medidas extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-<<<<<<< HEAD
 
-=======
->>>>>>> test
     private String mParam1;
     private String mParam2;
     private Grafica grafica;
     private Unbinder unbinder;
-<<<<<<< HEAD
 
-=======
->>>>>>> test
 
     private OnFragmentInteractionListener mListener;
 
@@ -51,11 +45,11 @@ public class grafica_medidas extends Fragment {
         }
     }
 
-<<<<<<< HEAD
+
     @BindView(R.id.tablelayout)
-=======
+    TableLayout tableLayout;
+
     @BindView(R.id.graph)
->>>>>>> test
     GraphView graphView;
 
     @Override
@@ -74,17 +68,10 @@ public class grafica_medidas extends Fragment {
         }
     }
 
-
-    @Override
-<<<<<<< HEAD
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-=======
     public void onDestroyView() {
         unbinder.unbind();
         super.onDestroyView();
->>>>>>> test
+
     }
 
     @Override
@@ -108,4 +95,5 @@ public class grafica_medidas extends Fragment {
 
         void onFragmentInteraction(Uri uri);
     }
+
 }

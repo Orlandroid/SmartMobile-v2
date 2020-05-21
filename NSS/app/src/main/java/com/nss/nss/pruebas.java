@@ -19,14 +19,10 @@ import com.github.anastr.speedviewlib.DeluxeSpeedView;
 import com.github.anastr.speedviewlib.SpeedView;
 
 import java.util.Objects;
-
-<<<<<<< HEAD
-import butterknife.BindFont;
-=======
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
->>>>>>> test
+
 
 public class pruebas extends Fragment {
 

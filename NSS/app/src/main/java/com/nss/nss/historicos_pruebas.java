@@ -21,10 +21,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindArray;
-<<<<<<< HEAD
-import butterknife.BindFont;
-=======
->>>>>>> test
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -104,8 +100,6 @@ public class historicos_pruebas extends Fragment {
         super.onDestroyView();
     }
 
-    @BindView(R.id.spinner)
-    Spinner spinerFiltrar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
