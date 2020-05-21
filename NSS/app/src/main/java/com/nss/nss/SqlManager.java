@@ -22,10 +22,28 @@ public class SqlManager extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sql_manager);
         unbinder = ButterKnife.bind(this);
+<<<<<<< HEAD
+=======
+    }
+
+    @Override
+    protected void onDestroy() {
+        unbinder.unbind();
+        super.onDestroy();
+>>>>>>> test
     }
 
     @BindView(R.id.txtConsulta)
     EditText txtConsulta;
+<<<<<<< HEAD
+=======
+
+
+    @OnClick(R.id.btnEjecutar)
+    void clickBtnEjecutarConsulta() {
+        adminSql = new AdminSql(getApplicationContext(), "mydb", null, 1);
+        adminSql.ejecutarConsulta(txtConsulta.getText().toString(), getApplicationContext());
+>>>>>>> test
 
     @OnClick(R.id.btnEjecutar)
     void ejecuatarConsulta() {

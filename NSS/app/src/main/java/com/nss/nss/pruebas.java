@@ -20,7 +20,13 @@ import com.github.anastr.speedviewlib.SpeedView;
 
 import java.util.Objects;
 
+<<<<<<< HEAD
 import butterknife.BindFont;
+=======
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+>>>>>>> test
 
 public class pruebas extends Fragment {
 
@@ -33,13 +39,12 @@ public class pruebas extends Fragment {
 
 
     private TelefonoMedida phoneListen;
-    private SpeedView speedometer;
-    private DeluxeSpeedView speedDeluxe;
     private TelephonyManager tm;
     private OnFragmentInteractionListener mListener;
     public static Button btnIniciarPrueba;
     private int escucharTelefono = PhoneStateListener.LISTEN_SIGNAL_STRENGTHS | PhoneStateListener.LISTEN_DATA_CONNECTION_STATE;
     private Typeface letra;
+    private Unbinder unbinder;
 
     public pruebas() {
         // Required empty public constructor
@@ -73,15 +78,21 @@ public class pruebas extends Fragment {
         tm.listen(phoneListen, escucharTelefono);
     }
 
+
+    @BindView(R.id.speedView)
+    SpeedView speedometer;
+
+    @BindView(R.id.speedDeluxe)
+    DeluxeSpeedView speedDeluxe;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_pruebas, container, false);
+        unbinder = ButterKnife.bind(this, vista);
         btnIniciarPrueba = vista.findViewById(R.id.btnIniciarPrueba);
         btnIniciarPrueba.setTypeface(letra);
         tm = (TelephonyManager) Objects.requireNonNull(getContext()).getSystemService(Context.TELEPHONY_SERVICE);
-        speedometer = vista.findViewById(R.id.speedView);
-        speedDeluxe = vista.findViewById(R.id.speedDeluxe);
         phoneListen = new TelefonoMedida(getActivity(), speedometer, speedDeluxe);
         tm.listen(phoneListen, escucharTelefono);
         btnIniciarPrueba.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +148,7 @@ public class pruebas extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         tm.listen(phoneListen, PhoneStateListener.LISTEN_NONE);
+        unbinder.unbind();
     }
 
     public interface OnFragmentInteractionListener {

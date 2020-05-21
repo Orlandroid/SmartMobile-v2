@@ -21,7 +21,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindArray;
+<<<<<<< HEAD
 import butterknife.BindFont;
+=======
+>>>>>>> test
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -68,6 +71,9 @@ public class historicos_pruebas extends Fragment {
 
     }
 
+    @BindArray(R.array.elementosSpinner)
+    String[] cabezera;
+
     @BindView(R.id.tablelayout)
     TableLayout table;
 
@@ -98,6 +104,9 @@ public class historicos_pruebas extends Fragment {
         Log.w(TAG_HISTORICOS_PRUEBAS, "UNBINDER");
         super.onDestroyView();
     }
+
+    @BindView(R.id.spinner)
+    Spinner spinerFiltrar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

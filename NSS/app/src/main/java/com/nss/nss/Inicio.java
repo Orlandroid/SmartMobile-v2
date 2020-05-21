@@ -5,44 +5,40 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class Inicio extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageButton btnMenuRedesMoviles;
-    private ImageButton btnWifi;
-    private TextView txtWifi;
-    private TextView txtRedesMoviles;
+public class Inicio extends AppCompatActivity {
+
     private String urlFuente = "fuentes/TitilliumWeb-Black.ttf";
+    private Unbinder unbinder;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
+        unbinder = ButterKnife.bind(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        btnMenuRedesMoviles = findViewById(R.id.btnMovil);
-        btnWifi = findViewById(R.id.btnWifi);
-        txtRedesMoviles = findViewById(R.id.txtMovil);
-        txtWifi = findViewById(R.id.txtWifi);
         txtRedesMoviles.setTypeface(Typeface.createFromAsset(getAssets(), urlFuente));
         txtWifi.setTypeface(Typeface.createFromAsset(getAssets(), urlFuente));
 
-        btnMenuRedesMoviles.setOnClickListener(this);
-        btnWifi.setOnClickListener(this);
         darPermisosApp();
     }
 
@@ -68,17 +64,28 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
         return super.onKeyDown(keyCode, event);
     }
 
-
     @Override
-    public void onClick(View v) {
-        if (v == btnMenuRedesMoviles) {
-            Intent intento = new Intent(Inicio.this, RedesMovilesActivity.class);
-            startActivity(intento);
-        }
-        if (v == btnWifi) {
-            Intent intento = new Intent(Inicio.this, SqlManager.class);
-            startActivity(intento);
-        }
+    protected void onDestroy() {
+        unbinder.unbind();
+        super.onDestroy();
+    }
+
+    @BindView(R.id.txtMovil)
+    TextView txtRedesMoviles;
+
+    @BindView(R.id.txtWifi)
+    TextView txtWifi;
+
+    @OnClick(R.id.btnMovil)
+    void clickBtnMovil() {
+        Intent intento = new Intent(Inicio.this, RedesMovilesActivity.class);
+        startActivity(intento);
+    }
+
+    @OnClick(R.id.btnWifi)
+    void clickBtnWifi() {
+        Intent intento = new Intent(Inicio.this, SqlManager.class);
+        startActivity(intento);
     }
 
     @Override
