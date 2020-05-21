@@ -24,6 +24,7 @@ public class AdminSql extends SQLiteOpenHelper {
 
     private final String TABLE_NAME = "historicosRedesMoviles";
     private final String TABLE_NAME_LOG = "Log";
+    private String change = "CHANGE";
 
     private String crearTabla = "CREATE TABLE " + TABLE_NAME + "(" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
