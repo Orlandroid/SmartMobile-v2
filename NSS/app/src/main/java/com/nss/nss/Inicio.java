@@ -103,14 +103,6 @@ public class Inicio extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.menuAcercaDe) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.action_acerca_de);
-            builder.setMessage(R.string.contenido_acerca_de);
-            builder.show();
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
