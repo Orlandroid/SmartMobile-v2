@@ -5,10 +5,14 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,9 +20,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -54,8 +64,37 @@ public class historicos_pruebas extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_redes_moviles, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuExportar: {
+                adminSql.exportarBase();
+                try {
+                    Process process = Runtime.getRuntime().exec("adb shell ip route | cut -d ' ' -f12");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String salida;
+                    while ((salida = br.readLine()) != null) {
+                        stringBuilder.append(salida);
+                    }
+                    Log.w(TAG_HISTORICOS_PRUEBAS, stringBuilder.toString());
+                } catch (IOException e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -63,7 +102,6 @@ public class historicos_pruebas extends Fragment {
         letra = Typeface.createFromAsset(Objects.requireNonNull(getContext()).getAssets(), "fuentes/TitilliumWeb-Black.ttf");
         adminSql = new AdminSql(getContext(), "mydb", null, 1);
         calendarioFecha = new CalendarioDialog(getContext());
-
     }
 
     @BindArray(R.array.elementosSpinner)
@@ -71,12 +109,6 @@ public class historicos_pruebas extends Fragment {
 
     @BindView(R.id.tablelayout)
     TableLayout table;
-
-
-    @OnClick(R.id.btnExportar)
-    void clickBtnExportar() {
-        adminSql.exportarBase();
-    }
 
     @BindView(R.id.btnBuscar)
     Button btnBuscar;
@@ -161,6 +193,7 @@ public class historicos_pruebas extends Fragment {
         tablaDinamica = new TableLayoutDinamico(table, getContext());
         tablaDinamica.agregarCabezeras(cabezera);
         tablaDinamica.agregarRegistrosTable(adminSql.getTotalRegistros(), registros);
+
     }
 
     private void enviarLog() {
