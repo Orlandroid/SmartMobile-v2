@@ -24,11 +24,18 @@
     <string name="textview">TextView</string>
 
     <string-array name="elementosSpinner">
-        <item>Id</item>
         <item>Fecha</item>
         <item>Dbm</item>
         <item>Asu</item>
-        <item>Codigo</item>
+        <item>Red</item>
+        <item>Red Telefonica</item>
+    </string-array>
+
+    <string-array name="cabezera">
+        <item>Fecha</item>
+        <item>Dbm</item>
+        <item>Asu</item>
+        <item>codigo</item>
         <item>Red</item>
         <item>Red Telefonica</item>
     </string-array>

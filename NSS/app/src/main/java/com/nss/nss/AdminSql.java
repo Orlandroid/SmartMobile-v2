@@ -24,7 +24,6 @@ public class AdminSql extends SQLiteOpenHelper {
 
     private final String TABLE_NAME = "historicosRedesMoviles";
     private final String TABLE_NAME_LOG = "Log";
-    private String change = "CHANGE";
 
     private String crearTabla = "CREATE TABLE " + TABLE_NAME + "(" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -124,7 +123,7 @@ public class AdminSql extends SQLiteOpenHelper {
         try {
             registros = new ArrayList<>();
             db = this.getWritableDatabase();
-            Cursor fila = db.rawQuery("select * from " + TABLE_NAME + " limit 100", null);
+            Cursor fila = db.rawQuery("select fecha,dbm,asu,pais,tipo_de_red,tipo_de_red_telefonica from " + TABLE_NAME + " limit 100", null);
             setTotalRegistros(fila.getCount());
             if (fila.moveToFirst()) {
                 do {
@@ -134,7 +133,6 @@ public class AdminSql extends SQLiteOpenHelper {
                     registros.add(fila.getString(3));
                     registros.add(fila.getString(4));
                     registros.add(fila.getString(5));
-                    registros.add(fila.getString(6));
                 } while (fila.moveToNext());
                 Log.w(TAG_HISTORICOS_PRUEBAS, registros.toString());
                 fila.close();
@@ -151,9 +149,9 @@ public class AdminSql extends SQLiteOpenHelper {
             Toast.makeText(ctx, cBuscado, Toast.LENGTH_SHORT).show();
             String consulta;
             if (pbuscador.equals("")) {
-                consulta = "select * from " + TABLE_NAME + " limit 100";
+                consulta = "select fecha,dbm,asu,pais,tipo_de_red,tipo_de_red_telefonica from " + TABLE_NAME + " limit 100";
             } else
-                consulta = "select * from historicosRedesMoviles where " + cBuscado + "='" + pbuscador + "'";
+                consulta = "select fecha,dbm,asu,pais,tipo_de_red,tipo_de_red_telefonica from " + TABLE_NAME + " where " + cBuscado + " = '" + pbuscador + "'";
             registros = new ArrayList<>();
             db = this.getWritableDatabase();
             Cursor fila = db.rawQuery(consulta, null);
@@ -166,7 +164,6 @@ public class AdminSql extends SQLiteOpenHelper {
                     registros.add(fila.getString(3));
                     registros.add(fila.getString(4));
                     registros.add(fila.getString(5));
-                    registros.add(fila.getString(6));
                 } while (fila.moveToNext());
                 Log.w(TAG_HISTORICOS_PRUEBAS, registros.toString());
                 fila.close();

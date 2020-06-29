@@ -114,6 +114,10 @@ public class pruebas extends Fragment {
         speedDeluxe.setMinSpeed(0);
         speedDeluxe.setMaxSpeed(63);
         speedometer.setTickNumber(4);
+        speedometer.setTextTypeface(letra);
+        speedDeluxe.setTextTypeface(letra);
+        speedometer.setSpeedTextTypeface(letra);
+        speedDeluxe.setSpeedTextTypeface(letra);
     }
 
     public void onButtonPressed(Uri uri) {

@@ -11,4 +11,13 @@
     <color name="colorNnsAuxiliar3">#FF0000</color>
     <color name="colorNnsAuxiliar4">#60DB00</color>
     <color name="colorNnsAuxiliar5">#FFD400</color>
+
+    <color name="primary">#0275d8</color>
+    <color name="succes">#5cb85c</color>
+    <color name="info">#5bc0de</color>
+    <color name="waring">#f0ad4e</color>
+    <color name="danger">#d9534f</color>
+    <color name="inverse">#292b2c</color>
+    <color name="faded">#f7f7f7</color>
+
 </resources>

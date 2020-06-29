@@ -20,15 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
-import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -74,18 +67,6 @@ public class historicos_pruebas extends Fragment {
         switch (item.getItemId()) {
             case R.id.menuExportar: {
                 adminSql.exportarBase();
-                try {
-                    Process process = Runtime.getRuntime().exec("adb shell ip route | cut -d ' ' -f12");
-                    BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String salida;
-                    while ((salida = br.readLine()) != null) {
-                        stringBuilder.append(salida);
-                    }
-                    Log.w(TAG_HISTORICOS_PRUEBAS, stringBuilder.toString());
-                } catch (IOException e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
             }
         }
         return super.onOptionsItemSelected(item);
@@ -104,7 +85,7 @@ public class historicos_pruebas extends Fragment {
         calendarioFecha = new CalendarioDialog(getContext());
     }
 
-    @BindArray(R.array.elementosSpinner)
+    @BindArray(R.array.cabezera)
     String[] cabezera;
 
     @BindView(R.id.tablelayout)

@@ -2,6 +2,7 @@ package com.nss.nss;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -37,11 +38,12 @@ public class TableLayoutDinamico {
 
     private void crearCelda(String texto) {
         textView = new TextView(context);
-        textView.setPadding(11, 7, 10, 11);
+        textView.setPadding(10, 7, 10, 7);
         textView.setBackgroundResource(R.drawable.textview_border);
         textView.setTypeface(letra);
         textView.setTextColor(context.getResources().getColor(R.color.colorNns1));
         textView.setText(texto);
+        textView.setGravity(Gravity.CENTER);
         renglon.addView(textView);
     }
 
@@ -50,8 +52,9 @@ public class TableLayoutDinamico {
         textView = new TextView(context);
         textView.setBackgroundResource(R.drawable.textview_border);
         textView.setTypeface(letra);
-        textView.setTextColor(context.getResources().getColor(R.color.colorNnsAuxiliar4));
+        textView.setTextColor(context.getResources().getColor(R.color.succes));
         textView.setText(texto);
+        textView.setGravity(Gravity.CENTER);
         renglon.addView(textView);
     }
 
@@ -60,7 +63,7 @@ public class TableLayoutDinamico {
         int contador = 0;
         for (int i = 0; i < total; i++) {
             agregarRenglon();
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < 6; j++) {
                 crearCelda(registros.get(contador));
                 contador++;
             }
